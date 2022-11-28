@@ -1,0 +1,27 @@
+﻿@page "/" 
+@using CurrencyList.Server.Models
+
+<PageTitle>Index</PageTitle>
+
+<h1>Hello, ASG!</h1>
+
+Welcome to the currency list app.
+
+<SfGrid TValue="Currencies" Toolbar="@(new List<string>() { "Add", "Edit", "Delete", "Update", "Cancel" })">
+    <SfDataManager Url="/api/Currencies" Adaptor="Adaptors.WebApiAdaptor"></SfDataManager>
+    <GridEditSettings AllowAdding="true" AllowEditing="true" AllowDeleting="true"></GridEditSettings>
+    <GridColumns>
+        <GridColumn Field="@nameof(Currencies.Id)" IsPrimaryKey="true" Visible="false"></GridColumn>
+        <GridColumn Field="@nameof(Currencies.Name)" Width="150"></GridColumn>
+        <GridColumn Field="@nameof(Currencies.CurrencyCode)" Width="150"></GridColumn>
+    </GridColumns>
+    <GridEvents TValue="Currencies" OnActionFailure="Failure"></GridEvents>
+</SfGrid>
+
+@code{
+    
+    private void Failure(FailureEventArgs e) {
+        Console.WriteLine(e.Error.Message);
+        Console.WriteLine(e.Error.StackTrace);
+    }
+}
